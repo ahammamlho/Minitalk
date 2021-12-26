@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include<signal.h>
-#include <unistd.h>
-#include "printf/ft_printf.h"
+#include "minitalk.h"
 
 void	ft_send_char(int iPid, char *str)
 {
@@ -25,11 +23,11 @@ void	ft_send_char(int iPid, char *str)
 		j = 7;
 		while (j >= 0)
 		{
-			usleep(500);
 			if ((str[i] & (1 << j)) > 0)
 				kill(iPid, SIGUSR2);
 			else
 				kill(iPid, SIGUSR1);
+			usleep(1000);
 			j--;
 		}
 		i++;

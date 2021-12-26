@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lahammam <lahammam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lahammam <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/03 12:04:29 by lahammam          #+#    #+#             */
-/*   Updated: 2021/11/22 17:44:21 by lahammam         ###   ########.fr       */
+/*   Created: 2021/12/26 11:26:28 by lahammam          #+#    #+#             */
+/*   Updated: 2021/12/26 11:26:30 by lahammam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minitalk.h"
 
 static int	ft_isspace(char c)
 {
@@ -46,10 +46,37 @@ int	ft_atoi(const char *str)
 	return ((int )(sign * result));
 }
 
-// #include <string.h>
-// int main()
-// {
-// 	int a = ft_atoi("      -2147483650");
+void	ft_putstr(char *s)
+{
+	int		i;
 
-// 	printf("success a = |%d| ",a);
-// }
+	i = 0;
+	while (*(s + i) != '\0')
+	{
+		write(1, (s + i), 1);
+		i++;
+	}
+}
+
+void	ft_putnbr(int n)
+{
+	char	a;
+
+	if (n == -2147483648)
+		ft_putstr("-2147483648");
+	else if (n < 10 && n >= 0)
+	{
+		a = n + 48;
+		write(1, &a, 1);
+	}
+	else if (n < 0)
+	{
+		write(1, "-", 1);
+		ft_putnbr(-1 * n);
+	}
+	else
+	{
+		ft_putnbr(n / 10);
+		ft_putnbr(n % 10);
+	}
+}

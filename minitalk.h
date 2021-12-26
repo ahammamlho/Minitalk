@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isascii.c                                       :+:      :+:    :+:   */
+/*   minitalk.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lahammam <lahammam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lahammam <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/03 12:02:01 by lahammam          #+#    #+#             */
-/*   Updated: 2021/11/06 14:03:02 by lahammam         ###   ########.fr       */
+/*   Created: 2021/12/26 14:10:18 by lahammam          #+#    #+#             */
+/*   Updated: 2021/12/26 14:10:23 by lahammam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef MINITALK_H
+# define MINITALK_H
 
-int	ft_isascii(int c)
-{
-	if (c <= 127 && c >= 0)
-		return (1);
-	else
-		return (0);
-}
+# include <signal.h>
+# include <unistd.h>
+# include <stdlib.h>
+
+int		ft_atoi(const char *str);
+void	ft_putstr(char *s);
+void	ft_putnbr(int n);
+
+#endif

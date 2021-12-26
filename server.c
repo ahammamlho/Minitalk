@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include<signal.h>
-#include <unistd.h>
-#include "printf/ft_printf.h"
+#include "minitalk.h"
 
 char	ft_byte_to_char(char *byte)
 {
@@ -67,10 +65,7 @@ void	handler(int sig, siginfo_t *info, void *p)
 	{
 		nbr_bit = 0;
 		c = ft_byte_to_char(byte);
-		ft_printf("%c", c);
-		if (ft_byte_to_char(byte) == 0)
-			ft_putchar_fd('\n', 1);
-		ft_bzero(byte, 8);
+		write(1, &c, 1);
 	}
 }
 
@@ -80,8 +75,9 @@ int	main(void)
 	struct sigaction	sa;
 
 	ipid = getpid();
-	ft_printf("iPid : %d", ipid);
-	ft_putchar_fd('\n', 1);
+	ft_putstr("iPid : ");
+	ft_putnbr(ipid);
+	write(1, "\n", 1);
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = handler;
 	sigaction(SIGUSR1, &sa, NULL);

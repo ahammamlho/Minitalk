@@ -1,28 +1,33 @@
-GCC = cc
-AR = ar rc
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: lahammam <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/12/26 11:26:46 by lahammam          #+#    #+#              #
+#    Updated: 2021/12/26 11:26:50 by lahammam         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NAME = minitalk
+CC = cc
 CFLAGS = -Wall -Wextra -Werror 
 RM = rm -rf
-NAME = minitalk
-%.o : %.c
-	   ${GCC} ${CFLAGS} -c $< -o $@
 
 ${NAME} :
-		${MAKE} -C printf
-		${GCC} ${CFLAGS} client.c ./printf/libftprintf.a -o client
-		${GCC} ${CFLAGS} server.c ./printf/libftprintf.a -o server
+		${CC} ${CFLAGS} client.c utils.c -o client
+		${CC} ${CFLAGS} server.c utils.c -o server
 all : ${NAME}
-		
 
 bonus: 
-		${MAKE} -C printf
-		${GCC} ${CFLAGS} bonus/client_bonus.c ./printf/libftprintf.a -o client_bonus
-		${GCC} ${CFLAGS} bonus/server_bonus.c ./printf/libftprintf.a -o server_bonus
+		${CC} ${CFLAGS} client_bonus.c utils.c -o client_bonus
+		${CC} ${CFLAGS} server_bonus.c utils.c -o server_bonus
 
 clean:
-		${RM} printf/*.o printf/libft/*.o
+		${RM} server client server_bonus client_bonus
 
 fclean: clean
-		${RM}  printf/*.a printf/libft/*.a server client_bonus server_bonus
 
 re:	fclean all
 
