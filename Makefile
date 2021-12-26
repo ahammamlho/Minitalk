@@ -2,14 +2,16 @@ GCC = cc
 AR = ar rc
 CFLAGS = -Wall -Wextra -Werror 
 RM = rm -rf
-
+NAME = minitalk
 %.o : %.c
 	   ${GCC} ${CFLAGS} -c $< -o $@
 
-all : 
+${NAME} :
 		${MAKE} -C printf
 		${GCC} ${CFLAGS} client.c ./printf/libftprintf.a -o client
 		${GCC} ${CFLAGS} server.c ./printf/libftprintf.a -o server
+all : ${NAME}
+		
 
 bonus: 
 		${MAKE} -C printf
