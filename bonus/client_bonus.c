@@ -14,72 +14,44 @@
 #include <unistd.h>
 #include "../printf/ft_printf.h"
 
-char	*char_to_byte(char c)
+int	g_pass = 0;
+
+void	ft_send_char(int iPid, char *str)
 {
 	int		i;
-	char	*result;
-	int		b;
-
-	i = 7;
-	result = ft_calloc(9, sizeof(char));
-	while (i >= 0)
-	{
-		b = c & (1 << i);
-		if (b > 0)
-			result[7 - i] = '1';
-		else
-			result[7 - i] = '0';
-		i--;
-	}
-	return (result);
-}
-
-int g_pass = 0;
-
-void	ft_send_char(int iPid, char *byte)
-{
-	int		i;
+	int		j;
 
 	i = 0;
-	while (byte[i])
+	while (str[i])
 	{
-		while (g_pass)
-			;
-		g_pass = 1;
-		if (byte[i] == '0')
-			kill(iPid, SIGUSR1);
-		else
-			kill(iPid, SIGUSR2);
+		j = 7;
+		while (j >= 0)
+		{
+			while (g_pass)
+				pause();
+			usleep(500);
+			g_pass = 1;
+			if ((str[i] & (1 << j)) > 0)
+				kill(iPid, SIGUSR2);
+			else
+				kill(iPid, SIGUSR1);
+			j--;
+		}
 		i++;
-		sleep(20);
 	}
 }
 
-void handler(int sig)
+void	handler(int sig)
 {
+	sig++;
 	g_pass = 0;
+	printf("~");
 }
 
 int	main(int argc, char *argv[])
 {
-	char	*byte;
-	int		i;
-	struct sigaction	sa;
-
-	i = 0;
-	byte = 0;
 	signal(SIGUSR1, handler);
-	
 	if (argc >= 3)
-	{
-		while (ft_strlen(argv[2]) >= i)
-		{
-			byte = char_to_byte(argv[2][i]);
-			ft_send_char(ft_atoi(argv[1]), byte);
-			free(byte);
-			byte = 0;
-			i++;	
-		}
-	}
+		ft_send_char(ft_atoi(argv[1]), argv[2]);
 	exit(0);
 }

@@ -52,25 +52,25 @@ void	ft_cas_error(int *si_pid, int *nbr_bit, int pid)
 void	handler(int sig, siginfo_t *info, void *p)
 {
 	static int		nbr_bit = 0;
-	static char		byte[9];
+	static char		byte[8];
 	static int		si_pid = 0;
 	char			c;
 
+	p++;
 	ft_cas_error(&si_pid, &nbr_bit, info->si_pid);
 	if (sig == SIGUSR1)
 		byte[nbr_bit] = '0';
 	else
 		byte[nbr_bit] = '1';
+	usleep(500);
 	kill(si_pid, SIGUSR1);
 	nbr_bit++;
 	if (nbr_bit == 8)
 	{
 		nbr_bit = 0;
 		c = ft_byte_to_char(byte);
-		ft_printf("%c" , c);
-		if (c == 0)
-			ft_putchar_fd('\n', 1);
-		ft_bzero(byte,9);
+		ft_printf("%c", c);
+		ft_bzero(byte, 8);
 	}
 }
 
@@ -81,10 +81,9 @@ int	main(void)
 
 	ipid = getpid();
 	ft_printf("iPid : %d", ipid);
-	ft_putchar_fd('\n', 1);
-	sa.sa_flags = SA_RESTART | SA_SIGINFO;
-	sa.sa_sigaction = &handler;
-	sigemptyset(&sa.sa_mask);
+	write(1, "\n", 1);
+	sa.sa_flags = SA_SIGINFO;
+	sa.sa_sigaction = handler;
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 	while (1)
